@@ -24,21 +24,26 @@ public class BlockListener implements Listener {
         this.plugin = plugin;
     }
 
-    private final Set<Material> blocked = Set.of(
-            Material.REDSTONE,
-            Material.REPEATER,
-            Material.COMPARATOR,
-            Material.OBSERVER,
-            Material.PISTON,
-            Material.STICKY_PISTON,
-            Material.DISPENSER,
-            Material.DROPPER,
-            Material.HOPPER,
-            Material.REDSTONE_TORCH,
-            Material.REDSTONE_WALL_TORCH,
-            Material.REDSTONE_LAMP,
-            Material.LEVER
-    );
+private final Set<Material> blocked = Set.of(
+        // Редстоун
+        Material.REDSTONE,
+        Material.REDSTONE_BLOCK,
+        Material.REDSTONE_TORCH,
+        Material.REDSTONE_WALL_TORCH,
+        Material.REDSTONE_LAMP,
+
+        // Компоненты
+        Material.REPEATER,
+        Material.COMPARATOR,
+        Material.OBSERVER,
+        Material.DAYLIGHT_DETECTOR,
+        Material.PISTON,
+        Material.STICKY_PISTON,
+        Material.DISPENSER,
+        Material.DROPPER,
+        Material.HOPPER,
+        Material.LEVER
+);
 
     private boolean isOutsideRegions(Player player) {
 
@@ -79,8 +84,10 @@ public class BlockListener implements Listener {
         if (!isOutsideRegions(player))
             return;
 
-        if (!blocked.contains(e.getBlock().getType()))
-            return;
+Material type = e.getBlock().getType();
+
+if (!blocked.contains(type) && !org.bukkit.Tag.SAPLINGS.isTagged(type))
+    return;
 
         e.setCancelled(true);
 
